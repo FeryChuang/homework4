@@ -1,4 +1,4 @@
-package UI;
+package homework4.UI;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import prog.order;
-import prog.product;
+import homework4.prog.order;
+import homework4.prog.product;
 import java.awt.FlowLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;

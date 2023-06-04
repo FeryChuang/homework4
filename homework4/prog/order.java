@@ -1,4 +1,4 @@
-package prog;
+package homework4.prog;
 
 import java.util.ArrayList;
 
