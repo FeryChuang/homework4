@@ -62,5 +62,7 @@ public class product {
 		this.stock = stock;
 	}
 	
-	
+	public void show() {
+		System.out.println("name="+name+"\tcost="+cost+"\tsale="+sale+"\tstock"+stock);
+	}
 }
