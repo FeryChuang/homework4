@@ -2,7 +2,7 @@ package homework4.prog;
 
 import java.util.ArrayList;
 
-public class order {
+public class order extends product{
 	private String ID;
 	private ArrayList<product> op;
 	private boolean menber;
@@ -11,13 +11,68 @@ public class order {
 	
 	
 	public order(String ID, ArrayList<product> op,boolean menber) {
-		
+		super();
 		this.ID = ID;
+		this.menber=menber;
 		op=new ArrayList<product>();
-		
+		sum=0;
+		int u = 0;
+		for(product o:op) {
+			int i=o.getSale();
+			u +=i;
+		}
+		if (menber==true) {
+			sum=(int)(u*0.9);
+		}else {
+			sum=u;
+		}
+	}
+
+
+
+	public String getID() {
+		return ID;
+	}
+
+
+
+	public void setID(String iD) {
+		ID = iD;
+	}
+
+
+
+	public ArrayList<product> getOp() {
+		return op;
+	}
+
+
+
+	public void setOp(ArrayList<product> op) {
+		this.op = op;
+	}
+
+
+
+	public boolean isMenber() {
+		return menber;
+	}
+
+
+
+	public void setMenber(boolean menber) {
+		this.menber = menber;
+	}
+
+
+
+	public int getSum() {
+		return sum;
 	}
 	
-	
+	public void showPN() {
+		System.out.println(super.getName());
+	}
 }
 
 

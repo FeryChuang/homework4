@@ -6,6 +6,7 @@ public class product {
 	private int sale;
 	private int stock;
 
+	public product() {}
 
 	public product(String name, int cost, int sale,int stock){
 		if (name!=null && cost>0 && sale>0 && stock>0) {
@@ -72,4 +73,6 @@ public class product {
 	public void show() {
 		System.out.println("name="+name+"\tcost="+cost+"\tsale="+sale+"\tstock"+stock);
 	}
+	
+	
 }

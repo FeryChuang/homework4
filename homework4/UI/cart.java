@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import homework4.prog.order;
 import homework4.prog.product;
@@ -143,7 +144,12 @@ public class cart extends JFrame {
 		Object[] rowP=new Object[4];
 		modelP.setColumnIdentifiers(columnP);
 		tableP.setModel(modelP);
-		
+		TableColumnModel columnModelP = tableP.getColumnModel();
+		columnModelP.getColumn(0).setPreferredWidth(120);
+		columnModelP.getColumn(1).setPreferredWidth(80);
+		columnModelP.getColumn(2).setPreferredWidth(80);
+		columnModelP.getColumn(3).setPreferredWidth(40);
+
 		
 		JLabel lblNewLabel_2 = new JLabel("商品名稱");
 		lblNewLabel_2.setBounds(32, 333, 80, 15);
@@ -195,6 +201,12 @@ public class cart extends JFrame {
 		Object[] rowS=new Object[3];
 		modelS.setColumnIdentifiers(columnS);
 		tableS.setModel(modelS);
+		TableColumnModel columnModelS = tableS.getColumnModel();
+		columnModelS.getColumn(0).setPreferredWidth(160);
+		columnModelS.getColumn(1).setPreferredWidth(80); 
+		columnModelS.getColumn(2).setPreferredWidth(80);
+		
+
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBounds(10, 291, 364, 146);
@@ -208,7 +220,12 @@ public class cart extends JFrame {
 		Object[] rowC=new Object[4];
 		modelC.setColumnIdentifiers(columnC);
 		tableC.setModel(modelC);
-		
+		TableColumnModel columnModelC = tableC.getColumnModel();
+		columnModelC.getColumn(0).setPreferredWidth(120); // 會員ID列寬度設定為100
+		columnModelC.getColumn(1).setPreferredWidth(40); // 訂購內容列寬度設定為300
+		columnModelC.getColumn(2).setPreferredWidth(40); // 會員列寬度設定為150
+		columnModelC.getColumn(3).setPreferredWidth(40); // 總金額列寬度設定為200
+
 		
 		
 		JSpinner Amount = new JSpinner();
@@ -251,6 +268,12 @@ public class cart extends JFrame {
 		Object[] rowO=new Object[4];
 		modelO.setColumnIdentifiers(columnO);
 		tableO.setModel(modelO);
+		TableColumnModel columnModel = tableO.getColumnModel();
+		columnModel.getColumn(0).setPreferredWidth(50); // 會員ID列寬度設定為100
+		columnModel.getColumn(1).setPreferredWidth(180); // 訂購內容列寬度設定為300
+		columnModel.getColumn(2).setPreferredWidth(40); // 會員列寬度設定為150
+		columnModel.getColumn(3).setPreferredWidth(50); // 總金額列寬度設定為200
+
 		
 		//////////////////////////
 		//按鈕們
@@ -357,10 +380,50 @@ public class cart extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String Mid=ID.getText();
+				boolean OM=true;
 				if (Member.isSelected()) {
-					boolean menber=true;
+					OM=true;
+				}else { OM=false;}
+				rowO[0]=Mid;
+				
+				String allP="";
+				for(int row = 0; row < modelC.getRowCount(); row++) {
+					String CP= modelC.getValueAt(row, 0).toString()+"*"+Amount.getValue()+";";
+					allP+=CP;
 				}
 				
+				rowO[1]=allP;
+				rowO[2]=OM;
+				
+				int allS=0;
+				for (int row = 0; row < modelC.getRowCount(); row++) {
+		            int cellValue = Integer.parseInt(modelC.getValueAt(row, 3).toString());
+		            allS += cellValue;
+				}
+				rowO[3]=allS;
+				modelO.addRow(rowO);
+				/*
+				order newOrder = new order(Mid, products, OM);
+				orders.add(newOrder);
+
+				order firstOrder = orders.get(0);
+				rowO[0] = firstOrder.getID();
+				
+				String allP="";
+				for(product AP:products) {
+					allP=allP+AP.getName();
+				}
+				
+				rowO[1]=allP;
+				rowO[2]=OM;
+				
+				int allS=0;
+				for(int i=0;i<modelC.getRowCount();i++) {
+					int calValue=Integer.parseInt(modelC.getValueAt(i, 3).toString());
+					allS=+calValue;
+				}
+				rowO[3]=allS;
+				modelO.addRow(rowO);*/
 			}
 		});
 		addOrder.setBounds(265, 453, 100, 30);
