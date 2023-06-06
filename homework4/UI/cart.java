@@ -2,6 +2,8 @@ package homework4.UI;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,24 +11,25 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+
 import homework4.prog.order;
 import homework4.prog.product;
-import java.awt.FlowLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.JButton;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class cart extends JFrame {
 
@@ -46,6 +49,8 @@ public class cart extends JFrame {
 	DefaultTableModel modelC;
 	private JTextField ProductName;
 	private JTextField ID;
+	JLabel clock;
+	
 
 	/**
 	 * Launch the application.
@@ -67,6 +72,13 @@ public class cart extends JFrame {
 	 * Create the frame.
 	 */
 	public cart() {
+		addWindowListener(new WindowAdapter(){
+			public void windowActivated(WindowEvent e) {
+				super.windowActivated(e);
+				new Thread(new ClocKRunnable()).start();
+			}
+		});
+				
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(450, 120, 450, 700);
 		contentPane = new JPanel();
@@ -84,13 +96,18 @@ public class cart extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
+		JLabel lblNewLabel_7 = new JLabel("New label");
+		lblNewLabel_7.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/shop logo-out.jpg")));
+		lblNewLabel_7.setBounds(0, 0, 414, 60);
+		panel.add(lblNewLabel_7);
+		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 80, 414, 571);
+		panel_2.setBounds(10, 69, 414, 592);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBounds(10, 10, 394, 551);
+		tabbedPane_1.setBounds(10, 10, 394, 526);
 		panel_2.add(tabbedPane_1);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -178,12 +195,12 @@ public class cart extends JFrame {
 		
 		ProductName = new JTextField();
 		ProductName.setEditable(false);
-		ProductName.setBounds(31, 231, 96, 21);
+		ProductName.setBounds(31, 195, 96, 21);
 		Sales.add(ProductName);
 		ProductName.setColumns(10);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(10, 71, 364, 146);
+		scrollPane_2.setBounds(10, 35, 364, 146);
 		Sales.add(scrollPane_2);
 		
 		tableS = new JTable();
@@ -209,7 +226,7 @@ public class cart extends JFrame {
 
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(10, 291, 364, 146);
+		scrollPane_3.setBounds(10, 255, 364, 146);
 		Sales.add(scrollPane_3);
 		
 		//建立C表格的小精靈
@@ -229,24 +246,24 @@ public class cart extends JFrame {
 		
 		
 		JSpinner Amount = new JSpinner();
-		Amount.setBounds(192, 230, 30, 22);
+		Amount.setBounds(192, 194, 30, 22);
 		Sales.add(Amount);
 		
 				
 		JLabel lblNewLabel = new JLabel("架上商品");
-		lblNewLabel.setBounds(10, 46, 87, 15);
+		lblNewLabel.setBounds(10, 10, 87, 15);
 		Sales.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("購物車");
-		lblNewLabel_1.setBounds(10, 266, 87, 15);
+		lblNewLabel_1.setBounds(10, 230, 87, 15);
 		Sales.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_6 = new JLabel("會員ID");
-		lblNewLabel_6.setBounds(10, 13, 46, 15);
+		lblNewLabel_6.setBounds(20, 414, 46, 15);
 		Sales.add(lblNewLabel_6);
 		
 		ID = new JTextField();
-		ID.setBounds(66, 10, 96, 21);
+		ID.setBounds(76, 411, 96, 21);
 		Sales.add(ID);
 		ID.setColumns(10);
 		
@@ -257,7 +274,7 @@ public class cart extends JFrame {
 		Orders.setLayout(null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(32, 28, 320, 327);
+		scrollPane_1.setBounds(32, 28, 320, 304);
 		Orders.add(scrollPane_1);
 		
 		tableO = new JTable();
@@ -279,11 +296,11 @@ public class cart extends JFrame {
 		//按鈕們
 		
 		JButton btnNewButton_5 = new JButton("刪除訂單");
-		btnNewButton_5.setBounds(252, 386, 100, 30);
+		btnNewButton_5.setBounds(252, 350, 100, 30);
 		Orders.add(btnNewButton_5);
 		
 		JButton btnNewButton_6 = new JButton("輸出表單");
-		btnNewButton_6.setBounds(252, 430, 100, 30);
+		btnNewButton_6.setBounds(252, 394, 100, 30);
 		Orders.add(btnNewButton_6);
 		
 		JButton btnNewButton = new JButton("進貨");
@@ -307,7 +324,7 @@ public class cart extends JFrame {
 				JOptionPane.showMessageDialog(null, "上架成功");
 				}
 		});
-		btnNewButton.setBounds(36, 414, 80, 30);
+		btnNewButton.setBounds(35, 397, 80, 30);
 		Products.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("修改");
@@ -329,7 +346,7 @@ public class cart extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(152, 414, 80, 30);
+		btnNewButton_1.setBounds(151, 397, 80, 30);
 		Products.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("刪除");
@@ -347,7 +364,7 @@ public class cart extends JFrame {
 				}
 			}
 		});
-		btnNewButton_2.setBounds(268, 414, 80, 30);
+		btnNewButton_2.setBounds(267, 397, 80, 30);
 		Products.add(btnNewButton_2);
 		
 		JButton addCart = new JButton("加入購物車");
@@ -368,11 +385,11 @@ public class cart extends JFrame {
 				products.add(new product(PN,SP,PA));
 			}
 		});
-		addCart.setBounds(261, 226, 100, 30);
+		addCart.setBounds(261, 190, 100, 30);
 		Sales.add(addCart);
 		
 		JCheckBox Member = new JCheckBox("會員9折");
-		Member.setBounds(19, 457, 74, 23);
+		Member.setBounds(86, 438, 74, 23);
 		Sales.add(Member);
 		
 		JButton addOrder = new JButton("下單!");
@@ -426,12 +443,54 @@ public class cart extends JFrame {
 				modelO.addRow(rowO);*/
 			}
 		});
-		addOrder.setBounds(265, 453, 100, 30);
+		addOrder.setBounds(261, 414, 100, 30);
 		Sales.add(addOrder);
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane_1.addTab("New tab", null, panel_1, null);
 		
+		clock = new JLabel("");
+		clock.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 12));
+		clock.setBounds(28, 557, 150, 20);
+		panel_2.add(clock);
 		
+		JButton btnNewButton_3 = new JButton("離開");
+		btnNewButton_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
+			}
+		});
+		btnNewButton_3.setBounds(283, 552, 80, 30);
+		panel_2.add(btnNewButton_3);
+		
+		
+		
+	}
+	private static String format(int number){
+		return number<10 ? "0"+number : ""+number;
+	}
+	private static String getTime() {
+		Calendar calendar=new GregorianCalendar();
+		int Year=calendar.get(Calendar.YEAR);
+		int Month=calendar.get(Calendar.MONTH);
+		int Day=calendar.get(Calendar.DATE);
+		int Hour=calendar.get(Calendar.HOUR_OF_DAY);
+		int Minute=calendar.get(Calendar.MINUTE);
+		int Second=calendar.get(Calendar.SECOND);
+		return Year+"/"+(Month+1)+"/"+Day+" "+format(Hour)+":"+format(Minute)+":"+format(Second);
+	}
+	
+	private class ClocKRunnable implements Runnable{
+		public void run() {
+			while(true) {
+				clock.setText(getTime());
+				try {
+					Thread.sleep(1000);
+				}catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }
