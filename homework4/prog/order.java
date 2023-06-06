@@ -5,19 +5,16 @@ import java.util.ArrayList;
 public class order {
 	private String ID;
 	private ArrayList<product> op;
+	private boolean menber;
 	private int sum;
-	private boolean payment;
-	private int pay;
-	private int change;
 	
-	public order(String ID) {
+	
+	
+	public order(String ID, ArrayList<product> op,boolean menber) {
 		
 		this.ID = ID;
 		op=new ArrayList<product>();
-		payment=true;
-		sum=0;
-		pay=0;
-		change=0;
+		
 	}
 	
 	

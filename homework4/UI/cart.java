@@ -74,7 +74,9 @@ public class cart extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//宣告兩個陣列
 		products = new ArrayList<product>();
+		orders= new ArrayList<order>();
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 10, 414, 60);
@@ -93,6 +95,7 @@ public class cart extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane_1.addTab("New tab", null, tabbedPane, null);
 		
+		//進貨的分頁
 		JPanel Products = new JPanel();
 		tabbedPane.addTab("進貨", null, Products, null);
 		Products.setLayout(null);
@@ -112,6 +115,7 @@ public class cart extends JFrame {
 		Products.add(Sale);
 		Sale.setColumns(10);
 		
+		//顯示進貨商品的表格
 		JSpinner Stock = new JSpinner();
 		Stock.setModel(new SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 		Stock.setBounds(307, 362, 40, 25);
@@ -131,14 +135,16 @@ public class cart extends JFrame {
 				Sale.setText(modelP.getValueAt(i, 2).toString());
 				Stock.setValue(modelP.getValueAt(i, 3));
 			}
-		});
+		});//上面是按了表格就會把所選資料顯示到對應欄位=為了可以修改
+		//建立P表格的小精靈
 		scrollPane.setViewportView(tableP);
 		modelP =new DefaultTableModel();
 		Object[] columnP= {"商品名稱","進貨價","出售價","庫存"};
 		Object[] rowP=new Object[4];
 		modelP.setColumnIdentifiers(columnP);
 		tableP.setModel(modelP);
-				
+		
+		
 		JLabel lblNewLabel_2 = new JLabel("商品名稱");
 		lblNewLabel_2.setBounds(32, 333, 80, 15);
 		Products.add(lblNewLabel_2);
@@ -159,7 +165,7 @@ public class cart extends JFrame {
 		
 		
 		///////////////////////////////
-		
+		//建立銷售業面
 		JPanel Sales = new JPanel();
 		tabbedPane.addTab("銷售", null, Sales, null);
 		Sales.setLayout(null);
@@ -181,7 +187,8 @@ public class cart extends JFrame {
 				int i=tableS.getSelectedRow();
 				ProductName.setText(modelS.getValueAt(i, 0).toString());			
 			}
-		});
+		});//上面是按了表格就會把所選資料顯示到對應欄位=為了可以修改
+		//建立S表格的小精靈
 		scrollPane_2.setViewportView(tableS);
 		modelS =new DefaultTableModel();
 		Object[] columnS= {"商品名稱","售價","剩餘數量"};
@@ -193,6 +200,7 @@ public class cart extends JFrame {
 		scrollPane_3.setBounds(10, 291, 364, 146);
 		Sales.add(scrollPane_3);
 		
+		//建立C表格的小精靈
 		tableC = new JTable();
 		scrollPane_3.setViewportView(tableC);
 		modelC =new DefaultTableModel();
@@ -216,14 +224,6 @@ public class cart extends JFrame {
 		lblNewLabel_1.setBounds(10, 266, 87, 15);
 		Sales.add(lblNewLabel_1);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("會員9折");
-		chckbxNewCheckBox.setBounds(19, 457, 74, 23);
-		Sales.add(chckbxNewCheckBox);
-		
-		JButton btnNewButton_4 = new JButton("下單!");
-		btnNewButton_4.setBounds(265, 453, 100, 30);
-		Sales.add(btnNewButton_4);
-		
 		JLabel lblNewLabel_6 = new JLabel("會員ID");
 		lblNewLabel_6.setBounds(10, 13, 46, 15);
 		Sales.add(lblNewLabel_6);
@@ -246,12 +246,14 @@ public class cart extends JFrame {
 		tableO = new JTable();
 		scrollPane_1.setViewportView(tableO);
 		
-		
 		modelO =new DefaultTableModel();
 		Object[] columnO= {"會員ID","訂購內容","會員","總金額"};
 		Object[] rowO=new Object[4];
 		modelO.setColumnIdentifiers(columnO);
 		tableO.setModel(modelO);
+		
+		//////////////////////////
+		//按鈕們
 		
 		JButton btnNewButton_5 = new JButton("刪除訂單");
 		btnNewButton_5.setBounds(252, 386, 100, 30);
@@ -274,15 +276,13 @@ public class cart extends JFrame {
 				rowS[1]=rowP[2];
 				rowS[2]=rowP[3];
 				modelS.addRow(rowS);
-				products.add(new product(Name.getText(),Integer.parseInt(Cost.getText()),Integer.parseInt(Sale.getText()),(int)Stock.getValue()));
+				
 				Name.setText("");
 				Cost.setText("");
 				Sale.setText("");
 				Stock.setValue(0);
 				JOptionPane.showMessageDialog(null, "上架成功");
-				for(product x:products) {
-				x.show();
-			}}
+				}
 		});
 		btnNewButton.setBounds(36, 414, 80, 30);
 		Products.add(btnNewButton);
@@ -334,16 +334,37 @@ public class cart extends JFrame {
 				int i=tableS.getSelectedRow();
 				String PN=modelS.getValueAt(i, 0).toString();
 				int PA=(int)Amount.getValue();
+				int SP=Integer.parseInt(modelS.getValueAt(i, 1).toString());
 				
 				rowC[0]=PN;
-				rowC[1]=rowS[i];
+				rowC[1]=SP;
 				rowC[2]=PA;
-				rowC[3]=(int)rowS[i]*PA;
+				rowC[3]=SP*PA;
+				modelC.addRow(rowC);
 				
+				products.add(new product(PN,SP,PA));
 			}
 		});
 		addCart.setBounds(261, 226, 100, 30);
 		Sales.add(addCart);
+		
+		JCheckBox Member = new JCheckBox("會員9折");
+		Member.setBounds(19, 457, 74, 23);
+		Sales.add(Member);
+		
+		JButton addOrder = new JButton("下單!");
+		addOrder.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String Mid=ID.getText();
+				if (Member.isSelected()) {
+					boolean menber=true;
+				}
+				
+			}
+		});
+		addOrder.setBounds(265, 453, 100, 30);
+		Sales.add(addOrder);
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane_1.addTab("New tab", null, panel_1, null);
