@@ -115,7 +115,7 @@ public class cart extends JFrame {
 		
 		//進貨的分頁
 		JPanel Products = new JPanel();
-		tabbedPane_inside.addTab("STOCK", null, Products, null);
+		tabbedPane_inside.addTab("ERROR", null, Products, null);
 		Products.setLayout(null);
 		
 		Name = new JTextField();
@@ -421,8 +421,19 @@ public class cart extends JFrame {
 		addOrder.setBounds(261, 414, 100, 30);
 		Sales.add(addOrder);
 		
+		JLabel lblNewLabel_9 = new JLabel("New label");
+		lblNewLabel_9.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/add.jpg")));
+		lblNewLabel_9.setBounds(232, 215, 80, 30);
+		Sales.add(lblNewLabel_9);
+		
 		JPanel monthly_report = new JPanel();
 		tabbedPane_outside.addTab("REPORT", null, monthly_report, null);
+		monthly_report.setLayout(null);
+		
+		JLabel lblNewLabel_8 = new JLabel("");
+		lblNewLabel_8.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/Construction.jpg")));
+		lblNewLabel_8.setBounds(44, 132, 301, 232);
+		monthly_report.add(lblNewLabel_8);
 		
 		JButton deletOrderButton = new JButton("刪除訂單");
 		deletOrderButton.setBounds(252, 350, 100, 30);

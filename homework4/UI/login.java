@@ -63,43 +63,44 @@ public class login extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("帳號");
 		lblNewLabel.setFont(new Font("微軟正黑體 Light", Font.PLAIN, 14));
-		lblNewLabel.setBounds(237, 41, 45, 30);
+		lblNewLabel.setBounds(208, 80, 45, 30);
 		panel_1.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("密碼");
 		lblNewLabel_1.setFont(new Font("微軟正黑體 Light", Font.PLAIN, 14));
-		lblNewLabel_1.setBounds(237, 81, 45, 30);
+		lblNewLabel_1.setBounds(208, 110, 45, 30);
 		panel_1.add(lblNewLabel_1);
 		
 		ID = new JTextField();
 		ID.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 12));
 		ID.setForeground(new Color(90, 130, 212));
 		ID.setBackground(new Color(240, 240, 240));
-		ID.setBounds(274, 45, 80, 20);
+		ID.setBounds(245, 84, 80, 20);
 		panel_1.add(ID);
 		ID.setColumns(10);
 		
 		PW = new JPasswordField();
 		PW.setForeground(new Color(90, 130, 212));
 		PW.setBackground(new Color(240, 240, 240));
-		PW.setBounds(274, 89, 80, 20);
+		PW.setBounds(245, 118, 80, 20);
 		panel_1.add(PW);
 		
-		JButton btnNewButton = new JButton("忘記密碼");
-		btnNewButton.setFont(new Font("微軟正黑體", Font.PLAIN, 12));
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		JLabel forgetButton = new JLabel("");
+		forgetButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				info f1=new info();
 				f1.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(213, 132, 85, 30);
-		panel_1.add(btnNewButton);
+		forgetButton.setIcon(new ImageIcon(login.class.getResource("/homework4/img/forget.jpg")));
+		forgetButton.setBounds(177, 150, 80, 30);
+		panel_1.add(forgetButton);
 		
-		JButton signIn = new JButton("登入");
-		signIn.setFont(new Font("微軟正黑體", Font.PLAIN, 12));
-		signIn.addMouseListener(new MouseAdapter() {
+		
+
+		JLabel signButton = new JLabel("");
+		signButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				char[] password = PW.getPassword();
@@ -121,25 +122,33 @@ public class login extends JFrame {
 				}
 			}
 		});
-		signIn.setBounds(308, 132, 85, 30);
-		panel_1.add(signIn);
+		signButton.setIcon(new ImageIcon(login.class.getResource("/homework4/img/signIn.jpg")));
+		signButton.setBounds(278, 150, 80, 30);
+		panel_1.add(signButton);
 		
-		JButton btnNewButton_1 = new JButton("離開");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
+
+		JLabel EXITbutton = new JLabel("");
+		EXITbutton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
 			}
 		});
-		btnNewButton_1.setFont(new Font("微軟正黑體", Font.PLAIN, 12));
-		btnNewButton_1.setBounds(319, 526, 85, 30);
-		panel_1.add(btnNewButton_1);
+		EXITbutton.setIcon(new ImageIcon(login.class.getResource("/homework4/img/exit.jpg")));
+		EXITbutton.setBounds(314, 516, 80, 30);
+		panel_1.add(EXITbutton);
+		
+		JLabel login_panel = new JLabel("");
+		login_panel.setIcon(new ImageIcon(login.class.getResource("/homework4/img/login.jpg")));
+		login_panel.setBounds(152, 32, 230, 170);
+		panel_1.add(login_panel);
+		
+		JLabel cat = new JLabel("");
+		cat.setIcon(new ImageIcon(login.class.getResource("/homework4/img/catCart3.jpg")));
+		cat.setBounds(0, 0, 414, 566);
+		panel_1.add(cat);
 		
 		
-		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon(login.class.getResource("/homework4/img/catCart2.jpg")));
-		lblNewLabel_3.setBounds(0, 0, 414, 566);
-		panel_1.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_2 = new JLabel("New label");
 		lblNewLabel_2.setIcon(new ImageIcon(login.class.getResource("/homework4/img/shop logo-out.jpg")));

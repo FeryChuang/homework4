@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
 
 public class info extends JFrame {
 
@@ -46,25 +47,24 @@ public class info extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("帳號：bb");
-		lblNewLabel.setFont(new Font("微軟正黑體", Font.PLAIN, 18));
-		lblNewLabel.setBounds(43, 10, 148, 25);
+		lblNewLabel.setFont(new Font("微軟正黑體", Font.PLAIN, 14));
+		lblNewLabel.setBounds(29, 26, 148, 25);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("密碼：0000");
-		lblNewLabel_1.setFont(new Font("微軟正黑體", Font.PLAIN, 18));
-		lblNewLabel_1.setBounds(43, 45, 148, 25);
+		lblNewLabel_1.setFont(new Font("微軟正黑體", Font.PLAIN, 14));
+		lblNewLabel_1.setBounds(29, 61, 148, 25);
 		contentPane.add(lblNewLabel_1);
 		
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 			}
 		});
-		
-		btnNewButton.setBounds(157, 76, 60, 30);
-		contentPane.add(btnNewButton);
+		lblNewLabel_2.setIcon(new ImageIcon(info.class.getResource("/homework4/img/OK.jpg")));
+		lblNewLabel_2.setBounds(131, 61, 80, 30);
+		contentPane.add(lblNewLabel_2);
 	}
-
 }
