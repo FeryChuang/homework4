@@ -91,31 +91,31 @@ public class cart extends JFrame {
 		products = new ArrayList<product>();
 		orders= new ArrayList<order>();
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 10, 414, 60);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel logo = new JPanel();
+		logo.setBounds(10, 10, 414, 60);
+		contentPane.add(logo);
+		logo.setLayout(null);
 		
 		JLabel lblNewLabel_7 = new JLabel("New label");
 		lblNewLabel_7.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/shop logo-out.jpg")));
 		lblNewLabel_7.setBounds(0, 0, 414, 60);
-		panel.add(lblNewLabel_7);
+		logo.add(lblNewLabel_7);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 69, 414, 592);
-		contentPane.add(panel_2);
-		panel_2.setLayout(null);
+		JPanel main = new JPanel();
+		main.setBounds(10, 69, 414, 592);
+		contentPane.add(main);
+		main.setLayout(null);
 		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBounds(10, 10, 394, 526);
-		panel_2.add(tabbedPane_1);
+		JTabbedPane tabbedPane_outside = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_outside.setBounds(10, 10, 394, 526);
+		main.add(tabbedPane_outside);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.addTab("New tab", null, tabbedPane, null);
+		JTabbedPane tabbedPane_inside = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_outside.addTab("SHOP", null, tabbedPane_inside, null);
 		
 		//進貨的分頁
 		JPanel Products = new JPanel();
-		tabbedPane.addTab("進貨", null, Products, null);
+		tabbedPane_inside.addTab("STOCK", null, Products, null);
 		Products.setLayout(null);
 		
 		Name = new JTextField();
@@ -190,7 +190,7 @@ public class cart extends JFrame {
 		///////////////////////////////
 		//建立銷售業面
 		JPanel Sales = new JPanel();
-		tabbedPane.addTab("銷售", null, Sales, null);
+		tabbedPane_inside.addTab("SALE", null, Sales, null);
 		Sales.setLayout(null);
 		
 		ProductName = new JTextField();
@@ -270,15 +270,15 @@ public class cart extends JFrame {
 		////////////////
 		
 		JPanel Orders = new JPanel();
-		tabbedPane.addTab("訂單", null, Orders, null);
+		tabbedPane_inside.addTab("ORDER", null, Orders, null);
 		Orders.setLayout(null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(32, 28, 320, 304);
-		Orders.add(scrollPane_1);
+		JScrollPane tableO_scrollPane = new JScrollPane();
+		tableO_scrollPane.setBounds(32, 28, 320, 304);
+		Orders.add(tableO_scrollPane);
 		
 		tableO = new JTable();
-		scrollPane_1.setViewportView(tableO);
+		tableO_scrollPane.setViewportView(tableO);
 		
 		modelO =new DefaultTableModel();
 		Object[] columnO= {"會員ID","訂購內容","會員","總金額"};
@@ -286,22 +286,14 @@ public class cart extends JFrame {
 		modelO.setColumnIdentifiers(columnO);
 		tableO.setModel(modelO);
 		TableColumnModel columnModel = tableO.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(50); // 會員ID列寬度設定為100
-		columnModel.getColumn(1).setPreferredWidth(180); // 訂購內容列寬度設定為300
-		columnModel.getColumn(2).setPreferredWidth(40); // 會員列寬度設定為150
-		columnModel.getColumn(3).setPreferredWidth(50); // 總金額列寬度設定為200
+		columnModel.getColumn(0).setPreferredWidth(50); 
+		columnModel.getColumn(1).setPreferredWidth(180); 
+		columnModel.getColumn(2).setPreferredWidth(40); 
+		columnModel.getColumn(3).setPreferredWidth(50); 
 
 		
 		//////////////////////////
 		//按鈕們
-		
-		JButton btnNewButton_5 = new JButton("刪除訂單");
-		btnNewButton_5.setBounds(252, 350, 100, 30);
-		Orders.add(btnNewButton_5);
-		
-		JButton btnNewButton_6 = new JButton("輸出表單");
-		btnNewButton_6.setBounds(252, 394, 100, 30);
-		Orders.add(btnNewButton_6);
 		
 		JButton btnNewButton = new JButton("進貨");
 		btnNewButton.addMouseListener(new MouseAdapter() {
@@ -383,6 +375,8 @@ public class cart extends JFrame {
 				modelC.addRow(rowC);
 				
 				products.add(new product(PN,SP,PA));
+				
+				Amount.setValue(0);
 			}
 		});
 		addCart.setBounds(261, 190, 100, 30);
@@ -419,50 +413,44 @@ public class cart extends JFrame {
 				}
 				rowO[3]=allS;
 				modelO.addRow(rowO);
-				/*
-				order newOrder = new order(Mid, products, OM);
-				orders.add(newOrder);
-
-				order firstOrder = orders.get(0);
-				rowO[0] = firstOrder.getID();
 				
-				String allP="";
-				for(product AP:products) {
-					allP=allP+AP.getName();
-				}
-				
-				rowO[1]=allP;
-				rowO[2]=OM;
-				
-				int allS=0;
-				for(int i=0;i<modelC.getRowCount();i++) {
-					int calValue=Integer.parseInt(modelC.getValueAt(i, 3).toString());
-					allS=+calValue;
-				}
-				rowO[3]=allS;
-				modelO.addRow(rowO);*/
+				checkOut CO=new checkOut();
+				CO.setVisible(true);
 			}
 		});
 		addOrder.setBounds(261, 414, 100, 30);
 		Sales.add(addOrder);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane_1.addTab("New tab", null, panel_1, null);
+		JPanel monthly_report = new JPanel();
+		tabbedPane_outside.addTab("REPORT", null, monthly_report, null);
+		
+		JButton deletOrderButton = new JButton("刪除訂單");
+		deletOrderButton.setBounds(252, 350, 100, 30);
+		Orders.add(deletOrderButton);
+		
+		JButton exportOrderButton = new JButton("輸出表單");
+		exportOrderButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		exportOrderButton.setBounds(252, 394, 100, 30);
+		Orders.add(exportOrderButton);
 		
 		clock = new JLabel("");
 		clock.setFont(new Font("Microsoft Sans Serif", Font.PLAIN, 12));
 		clock.setBounds(28, 557, 150, 20);
-		panel_2.add(clock);
+		main.add(clock);
 		
-		JButton btnNewButton_3 = new JButton("離開");
-		btnNewButton_3.addMouseListener(new MouseAdapter() {
+		JButton exitButton = new JButton("離開");
+		exitButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
 			}
 		});
-		btnNewButton_3.setBounds(283, 552, 80, 30);
-		panel_2.add(btnNewButton_3);
+		exitButton.setBounds(283, 552, 80, 30);
+		main.add(exitButton);
 		
 		
 		
