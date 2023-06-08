@@ -221,7 +221,7 @@ public class cart extends JFrame {
 		scrollPane_2.setViewportView(tableS);
 		modelS =new DefaultTableModel();
 		Object[] columnS= {"商品名稱","售價","剩餘數量"};
-		Object[] rowS=new Object[3];
+		Object[] rowS = {"", 0, 0};
 		modelS.setColumnIdentifiers(columnS);
 		tableS.setModel(modelS);
 		TableColumnModel columnModelS = tableS.getColumnModel();
@@ -326,11 +326,17 @@ public class cart extends JFrame {
 						rowP[2]=SP;
 						rowP[3]=Stock.getValue();
 						modelP.addRow(rowP);
-						rowS[0]=rowP[0];
-						rowS[1]=rowP[2];
-						rowS[2]=rowP[3];
-						modelS.addRow(rowS);
 						
+						products.add(new product(Name.getText(),SP,(int)Stock.getValue()));
+						
+						for(product o:products) {o.show();}
+						
+						int lastIndex = products.size()-1;
+						rowS[0]=products.get(lastIndex).getName();
+						rowS[1]=products.get(lastIndex).getSale();
+						rowS[2]=products.get(lastIndex).getStock();
+						modelS.addRow(rowS);
+												
 						Name.setText("");
 						Cost.setText("");
 						Sale.setText("");
@@ -424,11 +430,12 @@ public class cart extends JFrame {
 						rowC[2]=PA;
 						rowC[3]=SP*PA;
 						modelC.addRow(rowC);
-						
-						products.add(new product(PN,SP,PA));
-						
+												
 						Amount.setValue(0);
 						modelS.setValueAt(SA, i, 2);
+						
+						ProductName.setText("");
+						
 					}
 				}	
 			}

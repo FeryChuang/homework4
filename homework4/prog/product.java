@@ -18,11 +18,11 @@ public class product {
 	}
 
 	public product(String name, int sale,int stock){
-		if (name!=null && cost>0 && sale>0 && stock>0) {
+		
 			this.name=name;
 			this.sale=sale;
 			this.stock=stock;
-		}	
+			
 	}
 
 	public String getName() {
