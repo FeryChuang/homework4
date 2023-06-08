@@ -6,14 +6,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
+import javax.swing.JLabel;
+
 
 public class checkOut extends JFrame {
 
 	private JPanel contentPane;
+	static JTextArea output;
 
 	/**
 	 * Launch the application.
@@ -43,12 +47,14 @@ public class checkOut extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JTextArea output = new JTextArea();
+		output = new JTextArea();
 		output.setBounds(42, 10, 300, 370);
 		contentPane.add(output);
 		
-		JButton btnNewButton = new JButton("列印明細");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		//output.displayImage();
+		
+		JLabel printCheckOut = new JLabel("列印明細");
+		printCheckOut.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
@@ -58,17 +64,19 @@ public class checkOut extends JFrame {
 					}
 			}
 		});
-		btnNewButton.setBounds(70, 413, 87, 23);
-		contentPane.add(btnNewButton);
+		printCheckOut.setIcon(new ImageIcon(checkOut.class.getResource("/homework4/img/print.jpg")));
+		printCheckOut.setBounds(81, 410, 80, 30);
+		contentPane.add(printCheckOut);
 		
-		JButton btnNewButton_1 = new JButton("確認關閉");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
+		JLabel lblNewLabel = new JLabel("確認關閉");
+		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton_1.setBounds(212, 413, 87, 23);
-		contentPane.add(btnNewButton_1);
+		lblNewLabel.setIcon(new ImageIcon(checkOut.class.getResource("/homework4/img/OK.jpg")));
+		lblNewLabel.setBounds(243, 410, 80, 30);
+		contentPane.add(lblNewLabel);
 	}
 }
