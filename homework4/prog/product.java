@@ -74,5 +74,7 @@ public class product {
 		System.out.println("name="+name+"\tcost="+cost+"\tsale="+sale+"\tstock="+stock);
 	}
 	
-	
+	public int getSum() {
+		return sale*stock;
+	}
 }

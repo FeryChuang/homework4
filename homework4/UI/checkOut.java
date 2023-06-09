@@ -88,7 +88,7 @@ public class checkOut extends JFrame {
 		
 		output = new JTextArea();
 		output.setEditable(false);
-		output.setBounds(21, 238, 270, 173);
+		output.setBounds(0, 238, 312, 173);
 		panel.add(output);
 		
 		JLabel lblNewLabel_2 = new JLabel("電子發票證明聯");

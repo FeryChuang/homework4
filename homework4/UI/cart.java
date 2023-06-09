@@ -56,6 +56,14 @@ public class cart extends JFrame {
 	private JTextField ID;
 	JLabel clock;
 	int selectRow;
+	private JTable tableEX;
+	private JTable tableIN;
+	private JTable tableBAL;
+	DefaultTableModel modelEX;
+	DefaultTableModel modelIN;
+	DefaultTableModel modelBAL;
+	private JTextField itemName;
+	private JTextField itemPrice;
 	
 
 	/**
@@ -243,11 +251,11 @@ public class cart extends JFrame {
 		Object[] rowC=new Object[4];
 		modelC.setColumnIdentifiers(columnC);
 		tableC.setModel(modelC);
-		TableColumnModel columnModelC = tableC.getColumnModel();
-		columnModelC.getColumn(0).setPreferredWidth(120); // 會員ID列寬度設定為100
-		columnModelC.getColumn(1).setPreferredWidth(40); // 訂購內容列寬度設定為300
-		columnModelC.getColumn(2).setPreferredWidth(40); // 會員列寬度設定為150
-		columnModelC.getColumn(3).setPreferredWidth(40); // 總金額列寬度設定為200
+		TableColumnModel columnModelC = tableC.getColumnModel(); // 列寬度設定
+		columnModelC.getColumn(0).setPreferredWidth(120); 
+		columnModelC.getColumn(1).setPreferredWidth(40); 
+		columnModelC.getColumn(2).setPreferredWidth(40); 
+		columnModelC.getColumn(3).setPreferredWidth(40); 
 
 		
 		
@@ -381,8 +389,7 @@ public class cart extends JFrame {
 						Name.setText("");
 						Cost.setText("");
 						Sale.setText("");
-						Stock.setValue(0);
-						
+						Stock.setValue(0);						
 					}	
 				}else{
 					JOptionPane.showMessageDialog(null, "請選擇一筆訂單");
@@ -403,8 +410,7 @@ public class cart extends JFrame {
 					products.remove(i);
 					for(product o:products) {o.show();}
 					modelS.removeRow(i);
-					JOptionPane.showMessageDialog(null, "已刪除!");
-					
+					JOptionPane.showMessageDialog(null, "已刪除!");					
 				}else {
 					JOptionPane.showMessageDialog(null, "請選擇一筆訂單");
 				}
@@ -478,17 +484,12 @@ public class cart extends JFrame {
 									int nowA = (int)modelS.getValueAt(j,2);
 									int newA= nowA+purchaseA;
 									modelS.setValueAt(newA, j, 2);
-									break;
-									
+									break;									
 								}
 							}
-							
-							
-							break;
-							
+							break;							
 						}
-					}
-					
+					}					
 				}else {
 					JOptionPane.showMessageDialog(null, "請選擇一筆商品");
 				}
@@ -623,10 +624,195 @@ public class cart extends JFrame {
 		tabbedPane_outside.addTab("REPORT", null, monthly_report, null);
 		monthly_report.setLayout(null);
 		
-		JLabel lblNewLabel_8 = new JLabel("");
-		lblNewLabel_8.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/Construction.jpg")));
-		lblNewLabel_8.setBounds(44, 132, 301, 232);
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 10, 270, 430);
+		monthly_report.add(panel);
+		panel.setLayout(null);
+		
+		///支出表格
+		JScrollPane scrollPaneEX = new JScrollPane();
+		scrollPaneEX.setBounds(0, 0, 270, 180);
+		panel.add(scrollPaneEX);
+		
+		tableEX = new JTable();
+		scrollPaneEX.setViewportView(tableEX);
+		modelEX=new  DefaultTableModel();
+		Object[] columnEX= {"支出項目","金額"};
+		Object[] rowEX=new Object[2];
+		modelEX.setColumnIdentifiers(columnEX);
+		tableEX.setModel(modelEX);
+		TableColumnModel columnModelEX=tableEX.getColumnModel();
+		columnModelEX.getColumn(0).setPreferredWidth(120);
+		columnModelEX.getColumn(1).setPreferredWidth(60);
+		
+		//收入表格
+		JScrollPane scrollPaneIN = new JScrollPane();
+		scrollPaneIN.setBounds(0, 179, 270, 180);
+		panel.add(scrollPaneIN);
+		
+		tableIN = new JTable();
+		scrollPaneIN.setViewportView(tableIN);
+		modelIN=new  DefaultTableModel();
+		Object[] columnIN= {"收入項目","金額"};
+		Object[] rowIN=new Object[2];
+		modelIN.setColumnIdentifiers(columnIN);
+		tableIN.setModel(modelIN);
+		TableColumnModel columnModelIN=tableIN.getColumnModel();
+		columnModelIN.getColumn(0).setPreferredWidth(120);
+		columnModelIN.getColumn(1).setPreferredWidth(60);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(0, 358, 270, 70);
+		panel.add(scrollPane_1);
+		
+		//結算表格
+		tableBAL = new JTable();
+		scrollPane_1.setViewportView(tableBAL);
+		modelBAL=new  DefaultTableModel();
+		Object[] columnBAL= {"總結算","金額"};
+		Object[] rowBAL=new Object[2];
+		modelBAL.setColumnIdentifiers(columnBAL);
+		tableBAL.setModel(modelBAL);
+		
+		JLabel lblNewLabel_8 = new JLabel("自填項目");
+		lblNewLabel_8.setBounds(290, 82, 67, 15);
 		monthly_report.add(lblNewLabel_8);
+		
+		itemName = new JTextField();
+		itemName.setBounds(290, 107, 80, 21);
+		monthly_report.add(itemName);
+		itemName.setColumns(10);
+		
+		JLabel lblNewLabel_9 = new JLabel("金額");
+		lblNewLabel_9.setBounds(290, 138, 46, 15);
+		monthly_report.add(lblNewLabel_9);
+		
+		itemPrice = new JTextField();
+		itemPrice.setBounds(290, 157, 80, 21);
+		monthly_report.add(itemPrice);
+		itemPrice.setColumns(10);
+		
+		JLabel ExpensesButton = new JLabel("新增支出");
+		ExpensesButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(itemName.getText().equals("")||itemPrice.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "請輸入完整資料");
+				}else {
+					rowEX[0]=itemName.getText();
+					rowEX[1]=Integer.parseInt(itemPrice.getText());
+					modelEX.addRow(rowEX);
+					itemName.setText("");
+					itemPrice.setText("");
+				}	
+			}
+		});
+		ExpensesButton.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/ExpBut.jpg")));
+		ExpensesButton.setBounds(290, 204, 80, 30);
+		monthly_report.add(ExpensesButton);
+		
+		JLabel IncomeButton = new JLabel("新增收入");
+		IncomeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(itemName.getText().equals("")||itemPrice.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "請輸入完整資料");
+				}else {
+					rowIN[0]=itemName.getText();
+					rowIN[1]=Integer.parseInt(itemPrice.getText());
+					modelIN.addRow(rowIN);
+					itemName.setText("");
+					itemPrice.setText("");
+				}
+			}
+		});
+		IncomeButton.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/InBut.jpg")));
+		IncomeButton.setBounds(290, 251, 80, 30);
+		monthly_report.add(IncomeButton);
+		
+		JLabel RepoUp = new JLabel("修改");
+		RepoUp.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/update.jpg")));
+		RepoUp.setBounds(290, 298, 80, 30);
+		monthly_report.add(RepoUp);
+		
+		JLabel RepoDel = new JLabel("刪除");
+		RepoDel.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/delete.jpg")));
+		RepoDel.setBounds(290, 345, 80, 30);
+		monthly_report.add(RepoDel);
+		
+		JLabel RepoExpo = new JLabel("匯出明細");
+		RepoExpo.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/print.jpg")));
+		RepoExpo.setBounds(290, 439, 80, 30);
+		monthly_report.add(RepoExpo);
+		
+		JLabel GetData = new JLabel("取得資料");
+		GetData.addMouseListener(new MouseAdapter() {
+			private boolean buttonClicked = false;
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(!buttonClicked) {
+					rowEX[0]="房租";
+					rowEX[1]="8000";
+					modelEX.addRow(rowEX);
+					rowEX[0]="水電費";
+					rowEX[1]="1600";
+					modelEX.addRow(rowEX);
+								
+					rowEX[0]="進貨總支出";
+					int EXSum=0;
+					for (int i=0; i<products.size();i++) {
+						EXSum+=products.get(i).getSum();
+					}
+					rowEX[1]=EXSum;
+					modelEX.addRow(rowEX);
+					
+					rowIN[0]="販售總收入";
+					int INSum=0;
+					for(int i=0;i<modelO.getRowCount();i++) {
+						INSum+=(int)modelO.getValueAt(i, 3);
+					}
+					rowIN[1]=INSum;
+					modelIN.addRow(rowIN);
+					
+					buttonClicked=true;
+				}	
+			}
+		});
+		GetData.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/getData.jpg")));
+		GetData.setBounds(290, 31, 80, 30);
+		monthly_report.add(GetData);
+		
+		JLabel balanceButton = new JLabel("結算");
+		balanceButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				rowBAL[0]="總支出";
+				int allEX=0;
+				for(int i=0; i<modelEX.getRowCount();i++) {
+					allEX+=Integer.parseInt(modelEX.getValueAt(i, 1));
+				}
+				rowBAL[1]=allEX;
+				modelBAL.addRow(rowBAL);
+				
+				rowBAL[0]="總收入";
+				int allIN=0;
+				for(int i=0; i<modelIN.getRowCount();i++) {
+					allEX+=(int)modelIN.getValueAt(i, 1);
+				}
+				rowBAL[1]=allIN;
+				modelBAL.addRow(rowBAL);
+				
+				/*rowBAL[0]="結算";
+				rowBAL[1]=(allIN-allEX)+"";
+				modelBAL.addRow(rowBAL);*/
+			}
+		});
+		balanceButton.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/balBut.jpg")));
+		balanceButton.setBounds(290, 392, 80, 30);
+		monthly_report.add(balanceButton);
+		TableColumnModel columnModelBAL=tableBAL.getColumnModel();
+		columnModelBAL.getColumn(0).setPreferredWidth(120);
+		columnModelBAL.getColumn(1).setPreferredWidth(60);
 		
 		//////時鐘
 		
