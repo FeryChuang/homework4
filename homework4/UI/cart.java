@@ -86,7 +86,7 @@ public class cart extends JFrame {
 		});
 				
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(450, 100, 450, 700);
+		setBounds(450, 150, 450, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -264,7 +264,7 @@ public class cart extends JFrame {
 		lblNewLabel_1.setBounds(10, 230, 87, 15);
 		Sales.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_6 = new JLabel("會員ID");
+		JLabel lblNewLabel_6 = new JLabel("訂購人");
 		lblNewLabel_6.setBounds(20, 414, 46, 15);
 		Sales.add(lblNewLabel_6);
 		
@@ -327,7 +327,7 @@ public class cart extends JFrame {
 						rowP[3]=Stock.getValue();
 						modelP.addRow(rowP);
 						
-						products.add(new product(Name.getText(),SP,(int)Stock.getValue()));
+						products.add(new product(Name.getText(),CP,SP,(int)Stock.getValue()));
 						
 						for(product o:products) {o.show();}
 						
@@ -355,6 +355,7 @@ public class cart extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int i=tableP.getSelectedRow();
+				int lastIndex = i;
 				if(i>=0) {
 					int CP=Integer.parseInt(Cost.getText());
 					int SP=Integer.parseInt(Sale.getText());
@@ -365,9 +366,17 @@ public class cart extends JFrame {
 						modelP.setValueAt(Cost.getText(), i, 1);
 						modelP.setValueAt(Sale.getText(), i, 2);
 						modelP.setValueAt(Stock.getValue(), i, 3);
-						modelS.setValueAt(Name.getText(), i, 0);
-						modelS.setValueAt(Sale.getText(), i, 1);
-						modelS.setValueAt(Stock.getValue(), i, 2);
+						
+						products.get(lastIndex).setName(Name.getText());
+						products.get(lastIndex).setCost(CP);
+						products.get(lastIndex).setSale(SP);
+						products.get(lastIndex).setStock((int)Stock.getValue());
+						
+						for(product o:products) {o.show();}
+						
+						modelS.setValueAt(products.get(lastIndex).getName(), i, 0);
+						modelS.setValueAt(products.get(lastIndex).getSale(), i, 1);
+						modelS.setValueAt(products.get(lastIndex).getStock(), i, 2);
 						JOptionPane.showMessageDialog(null, "修改成功");
 						Name.setText("");
 						Cost.setText("");
@@ -391,6 +400,8 @@ public class cart extends JFrame {
 				int i=tableP.getSelectedRow();
 				if(i>=0) {
 					modelP.removeRow(i);
+					products.remove(i);
+					for(product o:products) {o.show();}
 					modelS.removeRow(i);
 					JOptionPane.showMessageDialog(null, "已刪除!");
 					
@@ -444,78 +455,116 @@ public class cart extends JFrame {
 		addCartButton.setBounds(267, 190, 80, 30);
 		Sales.add(addCartButton);
 		
+
+		JLabel deletePButton = new JLabel("刪除購物車");
+		deletePButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i =tableC.getSelectedRow();
+				if(i>=0) {
+					String productN= modelC.getValueAt(i, 0).toString();
+					
+					for(product check:products) {
+						if (productN.equals(check.getName())) {
+							int purchaseA = (int)modelC.getValueAt(i,2);
+							
+							check.setStock(check.getStock()+purchaseA);
+							
+							modelC.removeRow(i);
+							
+							for(int j=0 ; j<modelS.getRowCount() ; j++ ) {
+								String checkName = modelS.getValueAt(j,0).toString();
+								if (productN.equals(checkName)) {
+									int nowA = (int)modelS.getValueAt(j,2);
+									int newA= nowA+purchaseA;
+									modelS.setValueAt(newA, j, 2);
+									break;
+									
+								}
+							}
+							
+							
+							break;
+							
+						}
+					}
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "請選擇一筆商品");
+				}
+				
+			}
+		});
+		deletePButton.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/delete.jpg")));
+		deletePButton.setBounds(177, 411, 80, 30);
+		Sales.add(deletePButton);
+		
+		
 		JLabel checkOutButton = new JLabel("下單");
 		checkOutButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String Mid=ID.getText();
-				String OM="";
-				if (Member.isSelected()) {
-					OM="會員";
-				}else { OM="非會員";}
-				rowO[0]=Mid;
-				
-				String allP="";
-				for(int row = 0; row < modelC.getRowCount(); row++) {
-					String CP= modelC.getValueAt(row, 0).toString()+"*"+modelC.getValueAt(row, 2)+"件; ";
-					allP+=CP;
-				}
-				
-				rowO[1]=allP;
-				rowO[2]=OM;
-				
-				int allS=0;
-				for (int row = 0; row < modelC.getRowCount(); row++) {
-		            int cellValue = Integer.parseInt(modelC.getValueAt(row, 3).toString());
-		            allS += cellValue;
-				}
-				rowO[3]=allS;
-				modelO.addRow(rowO);
-				
-				checkOut CO=new checkOut();
-				try {
-					checkOut.output.setText("已完成訂購!"+
-							"\n\t訂購人："+Mid+
-							"\n\t"+OM+
-							"\n\t"+allP+
-							"\n\t總金額；"+"\t"+allS
-											
-							);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				CO.setVisible(true);
-				int RR=modelC.getRowCount();
-				for(int i=RR-1;i>=0;i--) {
-					modelC.removeRow(i);
-				}
+				if(ID.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "請輸入訂購人名稱");
+				}else {
+					String Mid=ID.getText();
+					String OM="";
+					if (Member.isSelected()) {
+						OM="會員";
+					}else { OM="非會員";}
+					rowO[0]=Mid;
+					
+					String allP="";
+					for(int row = 0; row < modelC.getRowCount(); row++) {
+						String CP= modelC.getValueAt(row, 0).toString()+"*"+modelC.getValueAt(row, 2)+"件; ";
+						allP+=CP;
+					}
+					
+					rowO[1]=allP;
+					rowO[2]=OM;
+					
+					int allS=0;
+					for (int row = 0; row < modelC.getRowCount(); row++) {
+			            int cellValue = Integer.parseInt(modelC.getValueAt(row, 3).toString());
+			            allS += cellValue;
+					}
+					rowO[3]=allS;
+					modelO.addRow(rowO);
+					
+					checkOut CO=new checkOut();
+					String checkOutBill="";
+					checkOutBill+="訂購人："+Mid+"\n身分："+OM+"\n";
+					for(int i=0; i<modelC.getColumnCount();i++) {
+						checkOutBill+=modelC.getColumnName(i)+"\t";
+					}
+					checkOutBill+="\n";
+					for(int i=0; i<modelC.getRowCount();i++) {
+						for(int j=0; j<modelC.getColumnCount() ; j++) {
+						    checkOutBill+=modelC.getValueAt(i, j).toString()+"\t";
+					}
+					checkOutBill+="\n";
+					}
+					checkOutBill+="\n總金額：\t\t\t"+allS;
+					
+					try {
+						checkOut.output.setText(checkOutBill);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					CO.setVisible(true);
+					int RR=modelC.getRowCount();
+					for(int i=RR-1;i>=0;i--) {
+						modelC.removeRow(i);
+					}
+				}	
 			}
 		});
 		checkOutButton.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/checkOut.jpg")));
 		checkOutButton.setBounds(267, 411, 80, 30);
 		Sales.add(checkOutButton);
-		/*
-		JLabel deleteCart = new JLabel("移除購物車");
-		deleteCart.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int i=tableC.getSelectedRow();
-				if(i>=0) {
-					int IS=modelS.getValueAt(i, i)
-					modelC.removeRow(i);
-					JOptionPane.showMessageDialog(null, "已刪除!");
-					//modelS.setValueAt(e, i, i)
-				}else {
-					JOptionPane.showMessageDialog(null, "請選擇一筆商品");
-				}
-			}
-		});
-		deleteCart.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/delete.jpg")));
-		deleteCart.setBounds(179, 411, 80, 30);
-		Sales.add(deleteCart);
 		
-		*/
+		
 
 		JLabel deleteOrderButton = new JLabel("刪除訂單");
 		deleteOrderButton.addMouseListener(new MouseAdapter() {
@@ -543,7 +592,7 @@ public class cart extends JFrame {
 					JOptionPane.showMessageDialog(null, "沒有資料可匯出");
 				}else {
 					try {
-						BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Custom.csv"), "UTF-8"));
+						BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("OrderList.csv"), "UTF-8"));
 						out.write('\ufeff');
 						for(int i=0; i<modelO.getColumnCount();i++) {
 							out.write(modelO.getColumnName(i)+",");
@@ -627,8 +676,4 @@ public class cart extends JFrame {
 			}
 		}
 	}
-
-	
-
-
 }
