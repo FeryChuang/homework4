@@ -27,6 +27,7 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
 
@@ -87,8 +88,10 @@ public class checkOut extends JFrame {
 		panel.add(lblNewLabel_1);
 		
 		output = new JTextArea();
+		output.setFont(new Font("微軟正黑體", Font.PLAIN, 11));
 		output.setEditable(false);
-		output.setBounds(0, 238, 312, 173);
+		output.setAlignmentX(Component.CENTER_ALIGNMENT);
+		output.setBounds(20, 238, 270, 173);
 		panel.add(output);
 		
 		JLabel lblNewLabel_2 = new JLabel("電子發票證明聯");

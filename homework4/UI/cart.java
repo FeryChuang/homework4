@@ -250,7 +250,7 @@ public class cart extends JFrame {
 		tableC = new JTable();
 		scrollPane_3.setViewportView(tableC);
 		modelC =new DefaultTableModel();
-		Object[] columnC= {"商品名稱","售價","購買數量","小計"};
+		Object[] columnC= {"商品","售價","數量","小計"};
 		Object[] rowC=new Object[4];
 		modelC.setColumnIdentifiers(columnC);
 		tableC.setModel(modelC);
@@ -263,6 +263,7 @@ public class cart extends JFrame {
 		
 		
 		JSpinner Amount = new JSpinner();
+		Amount.setModel(new SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 		Amount.setBounds(212, 195, 45, 22);
 		Sales.add(Amount);
 		
@@ -523,6 +524,7 @@ public class cart extends JFrame {
 					if (Member.isSelected()) {
 						OM="會員";
 					}else { OM="非會員";}
+					
 					rowO[0]=Mid;
 					
 					String allP="";
@@ -534,12 +536,18 @@ public class cart extends JFrame {
 					rowO[1]=allP;
 					rowO[2]=OM;
 					
+					int allSSS=0;
 					int allS=0;
 					for (int row = 0; row < modelC.getRowCount(); row++) {
 			            int cellValue = Integer.parseInt(modelC.getValueAt(row, 3).toString());
 			            allS += cellValue;
+			            if(Member.isSelected()) {
+				            double allSS=allS*0.9;
+							allSSS=(int)allSS;
+						}else {
+							allSSS=allS;}
 					}
-					rowO[3]=allS;
+					rowO[3]=allSSS;
 					modelO.addRow(rowO);
 					
 					checkOut CO=new checkOut();
@@ -555,12 +563,14 @@ public class cart extends JFrame {
 					}
 					checkOutBill+="\n";
 					}
-					checkOutBill+="\n總金額：\t\t\t"+allS;
+									
+					checkOutBill+="\n總金額：\t\t\t"+allSSS;
+					
 					
 					try {
 						checkOut.output.setText(checkOutBill);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 					CO.setVisible(true);
@@ -825,6 +835,7 @@ public class cart extends JFrame {
 			            tableIN.clearSelection();
 			            itemName.setText("");
 						itemPrice.setText("");
+						JOptionPane.showMessageDialog(null, "修改成功");
 			        }
 		        }else if (tableIN.getSelectedRow() >= 0) {
 		        	if(tableIN.getSelectedRow() == 0) {
@@ -841,6 +852,7 @@ public class cart extends JFrame {
 			            tableIN.clearSelection();
 			            itemName.setText("");
 						itemPrice.setText("");
+						JOptionPane.showMessageDialog(null, "修改成功");
 		        	}
 		        }
 				
@@ -868,6 +880,7 @@ public class cart extends JFrame {
 			            tableIN.clearSelection();
 			            itemName.setText("");
 						itemPrice.setText("");
+						JOptionPane.showMessageDialog(null, "刪除成功");
 					}
 		        }else if (tableIN.getSelectedRow() >= 0) {
 		        	if(tableIN.getSelectedRow() == 0) {
@@ -883,6 +896,7 @@ public class cart extends JFrame {
 		                tableIN.clearSelection();
 		                itemName.setText("");
 						itemPrice.setText("");
+						JOptionPane.showMessageDialog(null, "刪除成功");
 		        	}
 		        }
 			}
@@ -894,48 +908,32 @@ public class cart extends JFrame {
 		
 		JLabel balanceButton = new JLabel("結算");
 		balanceButton.addMouseListener(new MouseAdapter() {
+			private boolean buttonClicked = false;
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				rowBAL[0]="總支出";
-				int EXSum=0;
-				for(int i=0; i<modelEX.getRowCount();i++) {
-					EXSum+=Integer.parseInt(modelEX.getValueAt(i, 1).toString());
-				}
-				rowBAL[1]=EXSum;
-				modelBAL.addRow(rowBAL);
-				
-				rowBAL[0]="總收入";
-				int INSum=0;
-				for(int i=0; i<modelIN.getRowCount();i++) {
-					INSum+=Integer.parseInt(modelIN.getValueAt(i, 1).toString());
-				}
-				rowBAL[1]=INSum;
-				modelBAL.addRow(rowBAL);
-				
-				rowBAL[0]="總結";
-				rowBAL[1]=INSum-EXSum;
-				modelBAL.addRow(rowBAL);
-				
-				/*
-				
-				int allEX=0;
-				for(int i=0; i<modelEX.getRowCount();i++) {
-					allEX+=(int)modelEX.getValueAt(i, 1);
-				}
-				
-				rowBAL[1]=String.valueOf(allEX);
-				modelBAL.addRow(rowBAL);
-				
-				rowBAL[0]="總收入";
-				int allIN=0;
-				for(int i=0; i<modelIN.getRowCount();i++) {
-					allIN +=(int)modelIN.getValueAt(i, 1);
+				if(!buttonClicked) {
+					rowBAL[0]="總支出";
+					int EXSum=0;
+					for(int i=0; i<modelEX.getRowCount();i++) {
+						EXSum+=Integer.parseInt(modelEX.getValueAt(i, 1).toString());
+					}
+					rowBAL[1]=EXSum;
+					modelBAL.addRow(rowBAL);
 					
+					rowBAL[0]="總收入";
+					int INSum=0;
+					for(int i=0; i<modelIN.getRowCount();i++) {
+						INSum+=Integer.parseInt(modelIN.getValueAt(i, 1).toString());
+					}
+					rowBAL[1]=INSum;
+					modelBAL.addRow(rowBAL);
+					
+					rowBAL[0]="總結";
+					rowBAL[1]=INSum-EXSum;
+					modelBAL.addRow(rowBAL);
+					
+					buttonClicked=true;
 				}
-				rowBAL[1]=String.valueOf(allIN);
-				modelBAL.addRow(rowBAL);
-				
-				*/
 			}
 		});
 		balanceButton.setIcon(new ImageIcon(cart.class.getResource("/homework4/img/balBut.jpg")));
