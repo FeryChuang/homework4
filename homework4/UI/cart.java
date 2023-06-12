@@ -689,7 +689,7 @@ public class cart extends JFrame {
 		
 		//收入表格
 		JScrollPane scrollPaneIN = new JScrollPane();
-		scrollPaneIN.setBounds(0, 179, 270, 180);
+		scrollPaneIN.setBounds(0, 179, 270, 169);
 		panel.add(scrollPaneIN);
 		
 		tableIN = new JTable();
@@ -712,7 +712,7 @@ public class cart extends JFrame {
 		columnModelIN.getColumn(1).setPreferredWidth(60);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 358, 270, 70);
+		scrollPane_1.setBounds(0, 349, 270, 79);
 		panel.add(scrollPane_1);
 		
 		//結算表格
@@ -896,16 +896,27 @@ public class cart extends JFrame {
 		balanceButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				for(int i=0; i<modelEX.getRowCount();i++) {
-					System.out.println(modelEX.getValueAt(i, 1));
-				}
+				rowBAL[0]="總支出";
 				int EXSum=0;
 				for(int i=0; i<modelEX.getRowCount();i++) {
-					EXSum+=(int)modelEX.getValueAt(i, 1);
+					EXSum+=Integer.parseInt(modelEX.getValueAt(i, 1).toString());
 				}
-				System.out.println(EXSum);
-				/*rowBAL[0]="總支出";
+				rowBAL[1]=EXSum;
+				modelBAL.addRow(rowBAL);
+				
+				rowBAL[0]="總收入";
+				int INSum=0;
+				for(int i=0; i<modelIN.getRowCount();i++) {
+					INSum+=Integer.parseInt(modelIN.getValueAt(i, 1).toString());
+				}
+				rowBAL[1]=INSum;
+				modelBAL.addRow(rowBAL);
+				
+				rowBAL[0]="總結";
+				rowBAL[1]=INSum-EXSum;
+				modelBAL.addRow(rowBAL);
+				
+				/*
 				
 				int allEX=0;
 				for(int i=0; i<modelEX.getRowCount();i++) {
